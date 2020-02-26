@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx-node-app-ingress
+  namespace: default
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`n.labs.cometari.eu`)
+      middlewares:
+      kind: Rule
+      services:
+        - name: nginx-node
+          port: 80
+  tls:
+    certResolver: letsencrypt

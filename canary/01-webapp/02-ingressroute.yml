@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: webapp
+  namespace: webapp
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`c.labs.cometari.eu`)
+      kind: Rule
+      services:
+        - name: webapp-v1
+          port: 3000
+  tls:
+    certResolver: letsencrypt

@@ -1,0 +1,95 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-config
+  namespace: traefik
+  labels:
+    app: traefik
+data:
+  traefik.toml: |
+    [global]
+      checkNewVersion = false
+      sendAnonymousUsage = false
+    [serversTransport]
+      insecureSkipVerify = true
+    [entryPoints]
+      [entryPoints.web]
+        address = ":8000"
+      [entryPoints.websecure]
+        address = ":8443"
+      [entryPoints.traefik]
+        address = ":9000"
+    [log]
+      level = "ERROR"
+      format = "json"
+    [accessLog]
+      format = "json"
+    [api]
+      dashboard = true
+      debug = false
+      #insecure = true
+    [ping]
+    [providers]
+      [providers.file]
+        directory = "/conf.d/"
+        watch = true
+      [providers.kubernetesCRD]
+    [metrics]
+      [metrics.prometheus]
+        addEntryPointsLabels = true
+        addServicesLabels = true
+        entryPoint = "traefik"
+    [certificatesResolvers]
+      [certificatesResolvers.letsencrypt]
+        [certificatesResolvers.letsencrypt.acme]
+          email = "kuba@cometari.com"
+          storage = "/data/letsencrypt.json"
+          #caServer = "https://acme-v02.api.letsencrypt.org/directory"
+          [certificatesResolvers.letsencrypt.acme.tlsChallenge]
+      [certificatesResolvers.letsencrypt-staging]
+        [certificatesResolvers.letsencrypt-staging.acme]
+          email = "kuba@cometari.com"
+          storage = "/data/letsencrypt-staging.json"
+          caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+          [certificatesResolvers.letsencrypt-staging.acme.tlsChallenge]
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-custom
+  namespace: traefik
+  labels:
+    app: traefik
+data:
+  tls.toml: |
+    # TLS settings
+    [tls]
+      [tls.options]
+        [tls.options.default]
+          minVersion = "VersionTLS12"
+        [tls.options.mintls13]
+          minVersion = "VersionTLS13"
+  middlewares.toml: |
+    [http.middlewares]
+      [http.middlewares.default-headers.headers]
+        [http.middlewares.default-headers.headers.customResponseHeaders]
+          X-Powered-By = ""
+          Server = ""
+      [http.middlewares.security-headers.headers]
+        AccessControlAllowOrigin = "null"
+        AccessControlMaxAge = 60
+        BrowserXssFilter = true
+        ContentTypeNoSniff = true
+        ForceSTSHeader = true
+        FrameDeny = true
+        SSLRedirect = true
+        STSIncludeSubdomains = true
+        STSPreload = true
+        STSSeconds = 315360000
+        CustomFrameOptionsValue = "SAMEORIGIN"
+        ReferrerPolicy = "same-origin"
+        FeaturePolicy = "vibrate 'self'"
+
+---
+
