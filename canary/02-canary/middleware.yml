@@ -1,0 +1,11 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: wpusc-mnie
+  namespace: webapp
+spec:
+  headers:
+    customRequestHeaders:
+      X-Canary-Header: "knock-knock"
+    customResponseHeaders:
+      X-Canary-Response-Header: "hello there"

@@ -34,3 +34,24 @@ spec:
           kind: TraefikService
   tls:
     certResolver: letsencrypt
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: webapp-canary
+  namespace: webapp
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`c.labs.cometari.eu`) && HeadersRegexp(`X-Canary-Header`, `knock-knock`)
+      kind: Rule
+      middlewares:
+        - name: wpusc-mnie
+      services:
+        - name: webapp-v2
+          port: 3000
+          kind: Service
+  tls:
+    certResolver: letsencrypt
