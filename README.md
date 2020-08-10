@@ -29,8 +29,12 @@ Copy the file `/etc/rancher/k3s/k3s.yaml` to your local desktop to `~/.kube/conf
 ```kubectl get nodes``` should return that 3 nodes cluster is up and running
 
 ```kubectl get node --selector='!node-role.kubernetes.io/master'``` - check what are worker nodes
-# Add label to the node 
-kubectl label nodes <node-name> <label-key>=<label-value>
+
+### Add label to the node 
+
+```kubectl label nodes <node-name> <label-key>=<label-value>``` 
+
+Traefik use storage to store SSL certificates that's why I use node selector to make sure that Traefik always run on that node where certifcates are located. In order to have more than one Traefik instance and provide high availability you have to create custom instalation.
 
 ### Traefik deployment
 
