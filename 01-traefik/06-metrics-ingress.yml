@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`a.labs.cometari.eu`) && Path(`/metrics`)
+    - match: Host(`a.labs.cometari.com`) && Path(`/metrics`)
       kind: Rule
       services:
         - name: prometheus@internal

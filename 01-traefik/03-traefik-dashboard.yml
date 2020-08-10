@@ -27,11 +27,11 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`a.labs.cometari.eu`)
+    - match: Host(`a.labs.cometari.com`)
       kind: Rule
       middlewares:
         - name: auth
-      #  - name: redirectscheme
+        - name: redirectscheme
       services:
         - name: api@internal
           kind: TraefikService

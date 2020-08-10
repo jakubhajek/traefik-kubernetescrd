@@ -20,7 +20,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
         - name: traefik
-          image: traefik:2.1.4
+          image: traefik:2.2.8
           args:
             - --configFile=/config/traefik.toml
             #- "--entryPoints.web.address=:8000"
@@ -84,7 +84,6 @@ spec:
         - name: storage-volume
           persistentVolumeClaim:
             claimName: traefik-acme-storage
-
         - name: traefik-config
           configMap:
             name: traefik-config
@@ -114,17 +113,3 @@ spec:
       name: websecure
       targetPort: websecure
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    component: "server"
-    app: traefik
-  name: traefik-acme-storage
-  namespace: traefik
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "100Mi"

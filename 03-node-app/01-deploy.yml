@@ -7,7 +7,7 @@ metadata:
   labels:
     app: nginx-node
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: nginx-node
@@ -64,7 +64,7 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 3
+  replicas: 20
   selector:
     matchLabels:
       app: backend

@@ -8,7 +8,7 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`n.labs.cometari.eu`)
+    - match: Host(`n.labs.cometari.com`)
       middlewares:
       kind: Rule
       services:

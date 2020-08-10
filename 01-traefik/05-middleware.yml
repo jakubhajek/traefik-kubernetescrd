@@ -14,6 +14,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: redirectscheme
+  namespace: traefik
 spec:
   redirectScheme:
     scheme: https
@@ -23,7 +24,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: http-catch-all
-  namespace: default
+  namespace: traefik
 spec:
   entryPoints:
     - web
@@ -37,4 +38,4 @@ spec:
           port: 80
       middlewares:
         - name: redirectscheme
-          namespace: default
+          namespace: traefik
